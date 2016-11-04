@@ -10,27 +10,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tsp3.stashcards.Login">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="goToLibrary"/>
+    <!--<com.google.android.gms.common.SignInButton-->
+        <!--android:id="@+id/sign_in_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="goToLibrary"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+    <!--android:onClick="goToLibrary"-->
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="username"
+        android:inputType="textPassword"
         android:ems="10"
-        android:layout_above="@+id/sign_in_button"
+        android:layout_below="@+id/emailField"
+        android:layout_alignEnd="@+id/emailField"
+        android:layout_marginTop="40dp"
+        android:id="@+id/editText2"
+        android:text="password" />
+
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp"
-        android:id="@+id/userName"
-        android:singleLine="false" />
-    android:onClick="goToLibrary"
+        android:layout_marginTop="48dp"
+        android:id="@+id/buttonLogin"
+        android:onClick="goToLibrary" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_marginTop="171dp"
+        android:id="@+id/emailField"
+        android:text="Email"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_display_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.tsp3.stashcards.DisplayCard">
+
+    <Button
+        android:text="Flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/flipCard"
+        android:onClick="flipCard"/>
+
+    <Button
+        android:text="next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nextCard"
+        android:layout_alignBaseline="@+id/flipCard"
+        android:layout_alignBottom="@+id/flipCard"
+        android:layout_alignParentEnd="true"
+        style="@style/Widget.AppCompat.Button.Small" />
+
+    <Button
+        android:text="back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/prevCard"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_alignBaseline="@+id/flipCard"
+        android:layout_alignBottom="@+id/flipCard"
+        android:layout_alignParentStart="true"
+        />
+
+
+    <TextView
+        android:text="This is the Front Side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:id="@+id/cardText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

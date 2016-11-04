@@ -32,4 +32,12 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <ListView
+        android:id="@+id/list"
+        android:layout_marginTop="53dp"
+        android:divider="#ff000000"
+        android:dividerHeight = "2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </android.support.design.widget.CoordinatorLayout>

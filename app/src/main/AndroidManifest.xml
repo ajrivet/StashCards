@@ -18,7 +18,8 @@
         <activity
             android:name=".Library"
             android:label="@string/title_activity_library"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DisplayCard"></activity>
     </application>
 
 </manifest>
