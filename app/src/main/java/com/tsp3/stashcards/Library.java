@@ -9,13 +9,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import com.android.volley.*;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class Library extends AppCompatActivity {
+    private Spinner spinner;
+    public ArrayList<String> libraryContents = new ArrayList<String>();
+    public ArrayList<String> sets = new ArrayList<String>();
+    public ArrayList<String> creators = new ArrayList<String>();
+    private JSONArray result;
+    private TextView textViewName;
+    private TextView textViewCourse;
+    private TextView textViewSession;
 
 
     private ListView listview;
@@ -26,7 +43,6 @@ public class Library extends AppCompatActivity {
         setContentView(R.layout.activity_library);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,13 +51,15 @@ public class Library extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        getData();
         listview = (ListView) findViewById(R.id.list);
-        //create array to hold all the set names
-        final String[] librarycontents = new String[]{
-                "SampleSet1", "SampleSet2"
-        };
+
+        libraryContents = sets;
+
+
+
         //create adaptor to add array to list
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, librarycontents);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, libraryContents);
 
         //assign adapter to list view
         listview.setAdapter(adapter);
@@ -66,6 +84,55 @@ public class Library extends AppCompatActivity {
         String message = setinfo;
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    private void setLibrary(){
+
+    }
+
+
+
+   private void getData(){
+       result = new JSONArray();
+        StringRequest stringRequest = new StringRequest("http://tsp3.000webhostapp.com/SetJson.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject j = null;
+                        try {
+                            j = new JSONObject(response);
+                            result = j.getJSONArray("result");
+
+                            getSets(result);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    private void getSets(JSONArray j){
+        //Traversing through all the items in the json array
+        for(int i=0;i<j.length();i++){
+            try {
+                //Getting json object
+                JSONObject json = j.getJSONObject(i);
+
+                //Adding the name of the student to array list
+                sets.add(json.getString("Set_Name"));
+                creators.add(json.getString("creator"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
