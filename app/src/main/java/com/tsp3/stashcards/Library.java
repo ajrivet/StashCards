@@ -33,6 +33,7 @@ public class Library extends AppCompatActivity {
     private TextView textViewName;
     private TextView textViewCourse;
     private TextView textViewSession;
+    public ArrayAdapter<String> adapter;
 
 
     private ListView listview;
@@ -52,17 +53,14 @@ public class Library extends AppCompatActivity {
             }
         });
         getData();
+        libraryContents = sets;
         listview = (ListView) findViewById(R.id.list);
 
-        libraryContents = sets;
 
 
 
-        //create adaptor to add array to list
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, libraryContents);
 
-        //assign adapter to list view
-        listview.setAdapter(adapter);
+
         Intent intent = new Intent(this, DisplayCard.class);
 
 
@@ -103,7 +101,13 @@ public class Library extends AppCompatActivity {
                             j = new JSONObject(response);
                             result = j.getJSONArray("result");
 
-                            getSets(result);
+
+                            Library.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    getSets(result);
+                                }
+                            });
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -119,6 +123,8 @@ public class Library extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
     private void getSets(JSONArray j){
+
+
         //Traversing through all the items in the json array
         for(int i=0;i<j.length();i++){
             try {
@@ -132,8 +138,16 @@ public class Library extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        //create adaptor to add array to list
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, sets);
+
+        //assign adapter to list view
+        listview.setAdapter(adapter);
+
 
     }
+
+
 
 
 }

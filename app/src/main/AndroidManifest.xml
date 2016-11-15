@@ -20,7 +20,11 @@
             android:name=".Library"
             android:label="@string/title_activity_library"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DisplayCard"></activity>
+        <activity android:name=".DisplayCard">
+
+            android:screenOrientation="landscape"
+
+        </activity>
     </application>
 
 </manifest>
