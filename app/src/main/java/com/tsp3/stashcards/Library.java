@@ -72,7 +72,7 @@ public class Library extends AppCompatActivity {
                 int intPosition = position;
                 String clickedValue = listview.getItemAtPosition(intPosition).toString();
 
-                goToCards(clickedValue);
+                goToCards(Integer.toString(intPosition+1));
             }
         });
     }
@@ -80,7 +80,7 @@ public class Library extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), setinfo, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, DisplayCard.class);
         String message = setinfo;
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra("SetID", message);
         startActivity(intent);
     }
 
