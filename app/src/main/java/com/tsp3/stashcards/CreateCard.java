@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -30,13 +31,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tsp3.stashcards.R.id.spinner1;
+import static android.R.attr.onClick;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static android.widget.Toast.LENGTH_SHORT;
 
-public class CreateCard extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+public class CreateCard extends AppCompatActivity{
     public ArrayList<String> libraryContents = new ArrayList<String>();
     public ArrayList<String> sets = new ArrayList<String>();
-    public ArrayList<String> creators = new ArrayList<String>();
     private JSONArray result;
+   // private Spinner spinner;
+    private Button submit;
 
 
 
@@ -46,43 +52,36 @@ public class CreateCard extends AppCompatActivity implements AdapterView.OnItemS
         setContentView(R.layout.activity_create_card);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getData();
-        System.out.println("Test");
-        String id = "";
-        libraryContents = sets;
-        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, sets);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner = (Spinner) findViewById(R.id.spinner1);
-        spinner.setOnItemSelectedListener(this);
-
-
-    }
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        TextView myText = (TextView) view;
-        Toast.makeText(this, "You selected " + myText.getText(), Toast.LENGTH_SHORT).show();
+        addListenerButton();
     }
 
-    public void onNothingSelected(AdapterView<?> adapterView){
-        System.out.println("FAIL");
 
+    public void addListenerButton() {
+        // spinner = (Spinner) findViewById(R.id.spinner1);
+        submit = (Button) findViewById(R.id.submitButton);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+
+                submit(v);
+            }
+
+        });
     }
 
 
 
-
-
-       /**- spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+/**
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                System.out.println("WOAH");
 
                 Toast.makeText(parent.getContext(), "Selected: " + parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
-
-
-
 
             }
 
@@ -94,15 +93,104 @@ public class CreateCard extends AppCompatActivity implements AdapterView.OnItemS
         });
     }
 **/
+/**    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+        System.out.println("WOW");
+        TextView myText = (TextView) view;
+        Toast.makeText(this, "You selected " + myText.getText(), Toast.LENGTH_SHORT).show();
+    }
 
-    public void submit(){
+    public void onNothingSelected(AdapterView<?> adapterView){
+        System.out.println("FAIL");
+
+    }
+**/
+/**
+    public void addSetsToSpinner(){
+        getData();
+        spinner = (Spinner) findViewById(R.id.spinner1);
+
+        libraryContents = sets;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, sets);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+    }
+    public void addListenerToSpinner(){
+  //      spinner.setOnItemSelectedListener(new BetterOnItemSelectedListener());
+
+    }
+
+ **/
+
+
+
+
+
+
+
+
+
+
+    public void submit(View view){
         EditText editText = (EditText) findViewById(R.id.front_text);
         String frontText = editText.getText().toString();
         EditText editText2 = (EditText) findViewById(R.id.back_text);
-        String backText = editText.getText().toString();
+        String backText = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.set_number);
+        String setNumber = editText3.getText().toString();
+        System.out.println(frontText+" "+backText+" "+setNumber);
+
+
+        sendData(frontText, backText, setNumber);
+        System.out.println("TestBOI");
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Intent intent = new Intent(this, Library.class);
+
+
+
+
 
 
     }
+    private String url;
+    private void sendData(String frontText, String backText, String setNumber){
+        url = "http://tsp3.000webhostapp.com/AddCard.php?S_ID="+setNumber+"&FRONT="+frontText+"&BACK="+backText;
+        System.out.println(url);
+        StringRequest stringRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+
+
 
     private void getData(){
         result = new JSONArray();
@@ -149,7 +237,6 @@ public class CreateCard extends AppCompatActivity implements AdapterView.OnItemS
 
                 //Adding the name of the student to array list
                 sets.add(json.getString("Set_Name"));
-                creators.add(json.getString("creator"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
